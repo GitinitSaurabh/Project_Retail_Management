@@ -1,0 +1,167 @@
+﻿
+@model ProductViewModel
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{Layout = "_Layout2";}
+
+
+@Html.Raw(TempData["QuantityMsg"])
+@{List<int> quantities = Model.VendorStocks.Select(c => c.StockInHand).ToList();
+    int totalQuantity = 0;
+    foreach (var item in quantities) { totalQuantity += item; }
+    int i = 0;}
+
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Saurabh" content="Shopping Cart">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    <link rel="stylesheet" href="~/css/NavBarSession.css" />
+    <link rel="stylesheet" href="~/css/ViewProdStyleSheet.css" />
+</head>
+<body>
+
+
+
+
+    
+
+
+    @*@Html.ValidationSummary(false)*@
+
+
+    <div class="single_product">
+        <div class="container-fluid" style=" background-color: #fff; padding: 3rem;">
+            <div class="row">
+
+
+
+
+                <div class="col-lg-4 order-lg-1 order-1">
+                    <div class="image_selected">
+                        @{ string imreBase64Data = Convert.ToBase64String(Model.product.ImageName);
+                            string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data); }
+                        <img class="card-img" src="@imgDataURL" width="1000" height="1000">
+                    </div>
+                </div>
+                <div class="col-lg-6 order-3">
+                    <div class="product_description">
+                        <div class="product_name">@Model.product.Name</div>
+                        <div class="product-rating"><span class="badge badge-success"><i class="fa fa-star"></i> @Model.product.Rating</span> <span class="rating-review">35 Ratings & 45 Reviews</span></div>
+                        <div> <span class="product_price">₹ @Model.product.Price</span>  </div>
+
+
+
+
+
+
+
+
+
+
+                      
+
+                        <hr class="singleline">
+                        <div> <span class="product_info">EMI starts at ₹ 2,000. No Cost EMI Available<span><br><span class="product_info">7 Days easy replacement policy<span><br> <span class="product_info">7 Days easy return policy<span><br> <span class="product_info">In Stock: @totalQuantity units left<span> </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="br-dashed">
+                                        <div class="row">
+                                            <div class="col-md-3 col-xs-3"> <img src="https://img.icons8.com/color/48/000000/price-tag.png"> </div>
+                                            <div class="col-md-9 col-xs-9">
+                                                <div class="pr-info"> <span class="break-all">Get 5% instant discount + 10X rewards on instant payments</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7"> </div>
+                            </div>
+                        </div>
+                        <hr class="singleline">
+                        <div class="order_info d-flex flex-row">
+                        </div>
+                        <form asp-action="ViewProduct">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group" style="width:10rem">
+                                <label asp-for="ZipCode" class="control-label">Pincode for Delivery</label>
+                                <input asp-for="ZipCode" class="form-control" type="number" required />
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+                            @if (Model.Vendors.Count() != 0 && totalQuantity != 0)
+                            {
+                                <div class="form-group" style="width:10rem">
+                                    <label asp-for="DeliveryDate" class="control-label">Expected Delivery Date</label>
+                                    <input asp-for="DeliveryDate" class="form-control" readonly />
+                                    <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+                                </div>
+                            }
+
+                            <div class="form-group" style="width:5rem">
+                                <label asp-for="Quantity" class="control-label"></label>
+                                @if (Model.Vendors.Count() != 0 && totalQuantity != 0)
+                                {
+                        <input type="number" min="1" asp-for="Quantity" class="form-control" max="@Math.Max(quantities[0], quantities[1])" /> }
+                    else
+                    {
+                        <input type="number" min="1" asp-for="Quantity" class="form-control" />}
+                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                            </div>
+                            @if (Model.Vendors.Count() != 0 && totalQuantity != 0)
+                            {
+                        <div class="form-group">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Vendor Name</th>
+                                        <th scope="col">Vendor Rating</th>
+                                        <th scope="col">Delivery Charges</th>
+                                        <th scope="col">Vendor Stock</th>
+                                        <th scope="col">Select Vendor</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Vendors)
+                                    {
+                        <tr>
+                            <th scope="row">@item.Name</th>
+                            <td>@item.Rating</td>
+                            <td>@item.DeliveryCharge</td>
+                            <td>
+                                @if (quantities[i] != 0)
+                                {<p>@quantities[i]</p> }
+                            else
+                            { <p>@quantities[i + 1]</p>}
+                            </td>
+                            <td>@Html.RadioButton("VendorId", @item.VendorId, true)</td>
+                            <td>@Html.ValidationMessageFor(x => x.VendorId, "", new { @class = "error" })</td>
+                        </tr>
+i++;
+                    }
+                                </tbody>
+                            </table>
+                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Add To Cart" class="btn btn-primary" />
+                                        </div> }
+                                    else
+                                    {
+                        <div class="form-group">
+                            <input type="submit" value="Add To WishList" class="btn btn-primary" />
+                        </div>}
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

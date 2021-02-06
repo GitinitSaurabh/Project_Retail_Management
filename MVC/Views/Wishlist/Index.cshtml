@@ -1,0 +1,67 @@
+﻿@model IEnumerable<WebAPI.Models.WishLists>
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{ Layout = "_Layout2"; }
+
+@{ ViewData["Title"] = "Index"; }
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Saurabh" content="Shopping Cart">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    <link rel="stylesheet" href="~/css/NavBarSession.css" />
+    <link rel="stylesheet" href="~/css/ViewProdStyleSheet.css" />
+</head>
+<body>
+
+   
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                   S.No
+                </th>
+          
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateAdded)
+                </th>
+             
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WishlistId)
+            </td>
+                      <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdded)
+            </td>
+           
+            <td>
+                @Html.ActionLink("Delete", "DeleteFromWishlist", "Wishlist", new { id = item.WishlistId }, null)
+            </td>
+        </tr>}
+        </tbody>
+    </table>
+</body>

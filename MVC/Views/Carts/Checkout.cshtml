@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebAPI.Models.Carts>
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{ Layout = "_Layout2"; }
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Saurabh" content="Shopping Cart">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    <link rel="stylesheet" href="~/css/NavBarSession.css" />
+    <link rel="stylesheet" href="~/css/ViewProdStyleSheet.css" />
+    <link rel="stylesheet" href="~/css/GreenTick.css" />
+    <link href="~/js/GreenTick.js" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+
+    <div class="jumbotron text-center">
+        <h1 class="display-3">Thank You! For Shopping</h1>
+        <div class="swal2-icon swal2-success swal2-animate-success-icon" style="display: flex;">
+           
+            <span class="swal2-success-line-tip"></span>
+            <span class="swal2-success-line-long"></span>
+            <div class="swal2-success-ring"></div>
+
+        </div>
+
+
+        @*<svg version="1.1" viewBox="0 0 130.2 130.2">
+            <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+            <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+        </svg>*@
+        <p class="lead"><strong>Please check our other products</strong> from top brands and vendors on discount.</p>
+        <hr>
+        <p>
+            Having trouble? <a href="">Contact us</a>
+        </p>
+        <p class="lead">
+            <a class="py-2 btn btn-outline-info" asp-controller="Products" asp-action="Index">Continue Shopping</a>
+        </p>
+    </div>
+    <script>
+
+
+    </script>
+</body>

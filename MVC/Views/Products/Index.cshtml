@@ -1,0 +1,101 @@
+﻿@model IEnumerable<WebAPI.Models.Products>
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{ Layout = "_Layout2"; ViewBag.Title = "All Products";}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Saurabh" content="Shopping Cart">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    <link rel="stylesheet" href="~/css/NavBarSession.css" />
+    <link rel="stylesheet" href ="~/css/Dropdown.css" />
+
+</head>
+
+<body>
+
+    <div class="fadebg" style="background-color:bisque">
+        <div class="home__image position-relative overflow-hidden text-center" style="background:url(https://images-eu.ssl-images-amazon.com/images/G/31/img17/Home/LA/Diwali2019/Rishab/Auto_Biss/BISS_GW_Hero/BISS_1500x600-RECb_Jan._CB411491151_.jpg); background-repeat:no-repeat; background-size:cover">
+            <div class="col-md-5 p-lg-5 mx-auto my-md-5">
+                <a class="btn btn-outline-secondary" style="margin-top:250px; color:white" href="#">Coming soon</a>
+            </div>
+            <div class="product-device box-shadow d-none d-md-block"></div>
+            <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
+        </div>
+    </div>
+
+    @if (Model.Count() > 0)
+    {
+        <div class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    @foreach (var Products in Model)
+                    {
+                        <div class="col-md-3">
+                            <div class="card mb-3 box-shadow">
+                                <div class="container-fluid" style="margin-top:3px; height:200px; width:200px; margin-bottom:10px">
+                                    @{ string imreBase64Data = Convert.ToBase64String(Products.ImageName);
+                                        string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data); }
+                                    <img class="card-img" src="@imgDataURL" width="250" height="200">
+                                </div>
+
+                                <div class="card-body">
+                                    <h4 class="card-title">@Products.Name</h4>
+                                    <div class="product-rating"><span class="badge badge-success"><i class="fa fa-star"></i> @Products.Rating</span> </div>
+                                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                                    <p class="card-text">
+                                        @Products.Description
+                                    </p>
+                                    <div class="buy d-flex justify-content-between align-items-center">
+                                        <div class="price text-success"><h5 class="mt-4">₹ @Products.Price</h5></div>
+                                        <div class="btn-group">
+                                            @Html.ActionLink("  View ", "ViewProduct", "Products", new { id = Products.ProductId }, new { @class = "btn btn-dark fa fa-stack-exchange" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+
+    else
+    {
+
+        <div class="jumbotron" style="height:200px">
+            <div class="d-flex justify-content-center">
+                <h2>No Product Found!</h2>
+
+            </div>
+
+        </div>
+
+    }
+
+
+
+
+    <style>
+        .card-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-img {
+            padding-top: 20px;
+        }
+    </style>
+
+</body>
+</html>
